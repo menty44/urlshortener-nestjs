@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ShortenerService } from './shortener.service';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
 import { UpdateShortenerDto } from './dto/update-shortener.dto';
@@ -6,6 +14,11 @@ import { UpdateShortenerDto } from './dto/update-shortener.dto';
 @Controller('api')
 export class ShortenerController {
   constructor(private readonly shortenerService: ShortenerService) {}
+
+  @Post('/encode')
+  encode(@Body() createShortenerDto: CreateShortenerDto) {
+    return this.shortenerService.encode(createShortenerDto);
+  }
 
   @Post()
   create(@Body() createShortenerDto: CreateShortenerDto) {
@@ -23,7 +36,10 @@ export class ShortenerController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShortenerDto: UpdateShortenerDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateShortenerDto: UpdateShortenerDto,
+  ) {
     return this.shortenerService.update(+id, updateShortenerDto);
   }
 
