@@ -6,10 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { ShortenerService } from './shortener.service';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
 import { UpdateShortenerDto } from './dto/update-shortener.dto';
+
+import { validate } from 'class-validator';
 
 @Controller('api')
 export class ShortenerController {
@@ -44,7 +48,25 @@ export class ShortenerController {
   }
 
   @Post('encode')
-  encode(@Body() createShortenerDto: CreateShortenerDto) {
-    return this.shortenerService.encode(createShortenerDto);
+  async encode(@Body() createShortenerDto: CreateShortenerDto) {
+    const data = new CreateShortenerDto();
+    data.originalUrl = createShortenerDto.originalUrl;
+
+    const errors = await validate(data);
+
+    if (errors.length > 0) {
+      console.log('validation failed. errors: ', errors);
+
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          message: errors,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    } else {
+      console.log('validation succeed');
+      return this.shortenerService.encode(createShortenerDto);
+    }
   }
 }
