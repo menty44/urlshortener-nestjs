@@ -8,6 +8,7 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { ShortenerService } from './shortener.service';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
@@ -55,7 +56,7 @@ export class ShortenerController {
     const errors = await validate(data);
 
     if (errors.length > 0) {
-      console.log('validation failed. errors: ', errors);
+      Logger.debug('validation failed. errors: ', errors);
 
       throw new HttpException(
         {
@@ -65,7 +66,7 @@ export class ShortenerController {
         HttpStatus.BAD_REQUEST,
       );
     } else {
-      console.log('validation succeed');
+      Logger.debug('validation succeed');
       return this.shortenerService.encode(createShortenerDto);
     }
   }

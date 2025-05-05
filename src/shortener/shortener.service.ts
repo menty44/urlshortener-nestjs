@@ -2,8 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
 import { UpdateShortenerDto } from './dto/update-shortener.dto';
 
+interface TempData {
+  originalUrl: string;
+  visits: number;
+  createdAt: Date;
+}
+
 @Injectable()
 export class ShortenerService {
+  private urlMap: {
+    [shortUrl: string]: TempData;
+    //  {
+    //   originalUrl: string;
+    //   visits: number;
+    //   createdAt: Date;
+    // };
+  } = {};
+
   async encode(createShortenerDto: CreateShortenerDto) {
     return createShortenerDto;
   }
