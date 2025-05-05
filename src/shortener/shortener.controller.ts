@@ -15,11 +15,6 @@ import { UpdateShortenerDto } from './dto/update-shortener.dto';
 export class ShortenerController {
   constructor(private readonly shortenerService: ShortenerService) {}
 
-  @Post('/encode')
-  encode(@Body() createShortenerDto: CreateShortenerDto) {
-    return this.shortenerService.encode(createShortenerDto);
-  }
-
   @Post()
   create(@Body() createShortenerDto: CreateShortenerDto) {
     return this.shortenerService.create(createShortenerDto);
@@ -46,5 +41,10 @@ export class ShortenerController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.shortenerService.remove(+id);
+  }
+
+  @Post('encode')
+  encode(@Body() createShortenerDto: CreateShortenerDto) {
+    return this.shortenerService.encode(createShortenerDto);
   }
 }

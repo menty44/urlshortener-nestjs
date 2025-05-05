@@ -4,7 +4,6 @@ import { UpdateShortenerDto } from './dto/update-shortener.dto';
 
 @Injectable()
 export class ShortenerService {
-
   encode(createShortenerDto: CreateShortenerDto) {
     return 'This action adds a new encode';
   }
