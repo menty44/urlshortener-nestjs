@@ -75,6 +75,13 @@ export class ShortenerService {
     return this.urlMap[shortUrl]?.originalUrl;
   }
 
+  // incease counts
+  async incrementVisitCount(shortUrl: string): Promise<void> {
+    if (this.urlMap[shortUrl]) {
+      this.urlMap[shortUrl].visits += 1;
+    }
+  }
+
   // Stats function
   async getStatistics(
     shortUrl: string,

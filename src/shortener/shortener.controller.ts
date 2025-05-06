@@ -9,6 +9,7 @@ import {
   NotFoundException,
   HttpCode,
   Param,
+  Redirect,
 } from '@nestjs/common';
 import { ShortenerService } from './shortener.service';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
@@ -81,5 +82,16 @@ export class ShortenerController {
       });
     }
     return stats;
+  }
+
+  @Get(':shortUrl')
+  @Redirect('', HttpStatus.FOUND)
+  async redirectToLongUrl(@Param('shortUrl') shortUrl: string): Promise<any> {
+    const longUrl = await this.shortenerService.decode(shortUrl);
+    if (!longUrl) {
+      throw new NotFoundException('Short URL not found');
+    }
+    await this.shortenerService.incrementVisitCount(shortUrl);
+    return { url: longUrl };
   }
 }
