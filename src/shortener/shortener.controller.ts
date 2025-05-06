@@ -49,7 +49,7 @@ export class ShortenerController {
   }
 
   @Post('encode')
-  async encode(@Body() createShortenerDto: CreateShortenerDto) {
+  async encode(@Body() createShortenerDto: CreateShortenerDto): Promise<any> {
     const data = new CreateShortenerDto();
     data.originalUrl = createShortenerDto.originalUrl;
 

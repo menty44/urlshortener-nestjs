@@ -34,7 +34,7 @@ export class ShortenerService {
       .slice(0, this.SHORT_URL_LENGTH);
   }
 
-  async encode(createShortenerDto: CreateShortenerDto) {
+  async encode(createShortenerDto: CreateShortenerDto): Promise<any> {
     // Check if the long URL already exists
     const existingShortUrl = Object.keys(this.urlMap).find(
       (shortUrl) =>
@@ -64,7 +64,9 @@ export class ShortenerService {
       visits: 0,
       createdAt: new Date(),
     };
-    return { shortUrl };
+    // return { this.urlMap[shortUrl] };
+    // return { shortUrl, data: this.urlMap[shortUrl] };
+    return shortUrl;
   }
 
   create(createShortenerDto: CreateShortenerDto) {
