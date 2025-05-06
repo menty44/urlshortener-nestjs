@@ -20,33 +20,33 @@ import { validate } from 'class-validator';
 export class ShortenerController {
   constructor(private readonly shortenerService: ShortenerService) {}
 
-  @Post()
-  create(@Body() createShortenerDto: CreateShortenerDto) {
-    return this.shortenerService.create(createShortenerDto);
-  }
+  // @Post()
+  // create(@Body() createShortenerDto: CreateShortenerDto) {
+  //   return this.shortenerService.create(createShortenerDto);
+  // }
 
-  @Get()
-  findAll() {
-    return this.shortenerService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.shortenerService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.shortenerService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.shortenerService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateShortenerDto: UpdateShortenerDto,
-  ) {
-    return this.shortenerService.update(+id, updateShortenerDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateShortenerDto: UpdateShortenerDto,
+  // ) {
+  //   return this.shortenerService.update(+id, updateShortenerDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.shortenerService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.shortenerService.remove(+id);
+  // }
 
   @Post('encode')
   async encode(@Body() createShortenerDto: CreateShortenerDto): Promise<any> {
@@ -69,5 +69,10 @@ export class ShortenerController {
       Logger.debug('validation succeed');
       return this.shortenerService.encode(createShortenerDto);
     }
+  }
+
+  @Get('list')
+  async listUrls(): Promise<{ shortUrl: string; originalUrl: string }[]> {
+    return this.shortenerService.listUrls();
   }
 }

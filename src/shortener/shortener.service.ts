@@ -69,6 +69,13 @@ export class ShortenerService {
     return shortUrl;
   }
 
+  async listUrls(): Promise<{ shortUrl: string; originalUrl: string }[]> {
+    return Object.entries(this.urlMap).map(([shortUrl, { originalUrl }]) => ({
+      shortUrl,
+      originalUrl,
+    }));
+  }
+
   create(createShortenerDto: CreateShortenerDto) {
     return 'This action adds a new shortener';
   }
