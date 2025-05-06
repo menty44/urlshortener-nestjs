@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ShortenerController } from './shortener.controller';
 import { ShortenerService } from './shortener.service';
+import { CreateShortenerDto } from './dto/create-shortener.dto';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('ShortenerController', () => {
   let controller: ShortenerController;
@@ -51,5 +53,31 @@ describe('ShortenerController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('encode', () => {
+    it('should encode a URL successfully', async () => {
+      const dto = new CreateShortenerDto();
+      dto.originalUrl = mockLongUrl;
+
+      const result = { shortUrl: mockShortUrl, originalUrl: mockLongUrl };
+      jest.spyOn(service, 'encode').mockResolvedValue(result);
+
+      expect(await controller.encode(dto)).toEqual(result);
+      expect(service.encode).toHaveBeenCalledWith(dto);
+    });
+
+    it('should throw BadRequestException when validation fails', async () => {
+      const dto = new CreateShortenerDto();
+      dto.originalUrl = ''; // Invalid URL
+
+      try {
+        await controller.encode(dto);
+        fail('Should have thrown an exception');
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.getStatus()).toBe(HttpStatus.BAD_REQUEST);
+      }
+    });
   });
 });
