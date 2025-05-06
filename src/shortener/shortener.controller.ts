@@ -20,34 +20,6 @@ import { validate } from 'class-validator';
 export class ShortenerController {
   constructor(private readonly shortenerService: ShortenerService) {}
 
-  // @Post()
-  // create(@Body() createShortenerDto: CreateShortenerDto) {
-  //   return this.shortenerService.create(createShortenerDto);
-  // }
-
-  // @Get()
-  // findAll() {
-  //   return this.shortenerService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.shortenerService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateShortenerDto: UpdateShortenerDto,
-  // ) {
-  //   return this.shortenerService.update(+id, updateShortenerDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.shortenerService.remove(+id);
-  // }
-
   @Post('encode')
   async encode(@Body() createShortenerDto: CreateShortenerDto): Promise<any> {
     const data = new CreateShortenerDto();

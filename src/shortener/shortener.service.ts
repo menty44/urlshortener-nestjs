@@ -17,11 +17,6 @@ export class ShortenerService {
   MAX_URL_LENGTH = 2048;
   private urlMap: {
     [shortUrl: string]: TempData;
-    //  {
-    //   originalUrl: string;
-    //   visits: number;
-    //   createdAt: Date;
-    // };
   } = {};
 
   /**
@@ -74,25 +69,5 @@ export class ShortenerService {
       shortUrl,
       originalUrl,
     }));
-  }
-
-  create(createShortenerDto: CreateShortenerDto) {
-    return 'This action adds a new shortener';
-  }
-
-  findAll() {
-    return `This action returns all shortener`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} shortener`;
-  }
-
-  update(id: number, updateShortenerDto: UpdateShortenerDto) {
-    return `This action updates a #${id} shortener`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} shortener`;
   }
 }
