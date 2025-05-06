@@ -55,6 +55,7 @@ describe('ShortenerController', () => {
     expect(controller).toBeDefined();
   });
 
+  // Encode test
   describe('encode', () => {
     it('should encode a URL successfully', async () => {
       const dto = new CreateShortenerDto();
@@ -78,6 +79,17 @@ describe('ShortenerController', () => {
         expect(error).toBeInstanceOf(HttpException);
         expect(error.getStatus()).toBe(HttpStatus.BAD_REQUEST);
       }
+    });
+  });
+
+  // List test
+  describe('listUrls', () => {
+    it('should return a list of URLs', async () => {
+      jest.spyOn(service, 'listUrls').mockResolvedValue(mockUrlList);
+
+      const result = await controller.listUrls();
+      expect(result).toEqual(mockUrlList);
+      expect(service.listUrls).toHaveBeenCalled();
     });
   });
 });
