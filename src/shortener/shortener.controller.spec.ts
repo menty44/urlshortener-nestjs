@@ -114,4 +114,59 @@ describe('ShortenerController', () => {
       }
     });
   });
+
+  // stats test
+  describe('getStatistics', () => {
+    it('should return statistics for a short URL', async () => {
+      jest.spyOn(service, 'getStatistics').mockResolvedValue(mockStats);
+
+      const result = await controller.getStatistics(mockShortUrl);
+      expect(result).toEqual(mockStats);
+      expect(service.getStatistics).toHaveBeenCalledWith(mockShortUrl);
+    });
+
+    it('should throw NotFoundException when short URL is not found', async () => {
+      jest.spyOn(service, 'getStatistics').mockResolvedValue(null);
+
+      try {
+        await controller.getStatistics('nonexistent');
+        fail('Should have thrown an exception');
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+
+    it('should throw NotFoundException when shortUrl parameter is empty', async () => {
+      try {
+        await controller.getStatistics('');
+        fail('Should have thrown an exception');
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+
+  // redirect test
+  describe('redirectToLongUrl', () => {
+    it('should redirect to the long URL and increment visit count', async () => {
+      jest.spyOn(service, 'decode').mockResolvedValue(mockLongUrl);
+      jest.spyOn(service, 'incrementVisitCount').mockResolvedValue(undefined);
+
+      const result = await controller.redirectToLongUrl(mockShortUrl);
+      expect(result).toEqual({ url: mockLongUrl });
+      expect(service.decode).toHaveBeenCalledWith(mockShortUrl);
+      expect(service.incrementVisitCount).toHaveBeenCalledWith(mockShortUrl);
+    });
+
+    it('should throw NotFoundException when short URL is not found', async () => {
+      jest.spyOn(service, 'decode').mockResolvedValue(null);
+
+      try {
+        await controller.redirectToLongUrl('nonexistent');
+        fail('Should have thrown an exception');
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
 });
