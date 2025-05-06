@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
-import { UpdateShortenerDto } from './dto/update-shortener.dto';
 import { randomBytes } from 'crypto';
 
 interface TempData {
@@ -29,6 +28,7 @@ export class ShortenerService {
       .slice(0, this.SHORT_URL_LENGTH);
   }
 
+  // Encode and savee data in the memory
   async encode(createShortenerDto: CreateShortenerDto): Promise<any> {
     // Check if the long URL already exists
     const existingShortUrl = Object.keys(this.urlMap).find(
@@ -59,11 +59,10 @@ export class ShortenerService {
       visits: 0,
       createdAt: new Date(),
     };
-    // return { this.urlMap[shortUrl] };
-    // return { shortUrl, data: this.urlMap[shortUrl] };
     return shortUrl;
   }
 
+  // list saved data
   async listUrls(): Promise<{ shortUrl: string; originalUrl: string }[]> {
     return Object.entries(this.urlMap).map(([shortUrl, { originalUrl }]) => ({
       shortUrl,
@@ -71,6 +70,7 @@ export class ShortenerService {
     }));
   }
 
+  // Decoding function
   async decode(shortUrl: string): Promise<string | undefined> {
     return this.urlMap[shortUrl]?.originalUrl;
   }
