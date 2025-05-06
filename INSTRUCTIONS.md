@@ -11,6 +11,11 @@ $ npm install
 $ npm run start:debug
 ```
 
+```bash
+# unit test
+$ npm run test
+```
+
 Access the code on http://localhost:5000/
 
 For 3rd party API access use the below payloads
