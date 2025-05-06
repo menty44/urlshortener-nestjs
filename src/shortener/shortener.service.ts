@@ -70,4 +70,8 @@ export class ShortenerService {
       originalUrl,
     }));
   }
+
+  async decode(shortUrl: string): Promise<string | undefined> {
+    return this.urlMap[shortUrl]?.originalUrl;
+  }
 }

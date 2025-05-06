@@ -3,16 +3,13 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   HttpException,
   HttpStatus,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { ShortenerService } from './shortener.service';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
-import { UpdateShortenerDto } from './dto/update-shortener.dto';
 
 import { validate } from 'class-validator';
 
@@ -46,5 +43,20 @@ export class ShortenerController {
   @Get('list')
   async listUrls(): Promise<{ shortUrl: string; originalUrl: string }[]> {
     return this.shortenerService.listUrls();
+  }
+
+  @Post('decode')
+  async decode(
+    @Body() shortenerDto: { shortUrl: string },
+  ): Promise<{ longUrl: string } | { status: any; message: string }> {
+    const longUrl = await this.shortenerService.decode(shortenerDto.shortUrl);
+    if (!longUrl) {
+      // throw new NotFoundException('Short URL not found');
+      throw new NotFoundException({
+        status: HttpStatus.NOT_FOUND,
+        message: 'Short URL not found',
+      });
+    }
+    return { longUrl };
   }
 }
