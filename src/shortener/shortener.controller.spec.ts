@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ShortenerController } from './shortener.controller';
 import { ShortenerService } from './shortener.service';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 
 describe('ShortenerController', () => {
   let controller: ShortenerController;
@@ -90,6 +90,28 @@ describe('ShortenerController', () => {
       const result = await controller.listUrls();
       expect(result).toEqual(mockUrlList);
       expect(service.listUrls).toHaveBeenCalled();
+    });
+  });
+
+  // Decodee test
+  describe('decode', () => {
+    it('should decode a short URL successfully', async () => {
+      jest.spyOn(service, 'decode').mockResolvedValue(mockLongUrl);
+
+      const result = await controller.decode({ shortUrl: mockShortUrl });
+      expect(result).toEqual({ longUrl: mockLongUrl });
+      expect(service.decode).toHaveBeenCalledWith(mockShortUrl);
+    });
+
+    it('should throw NotFoundException when short URL is not found', async () => {
+      jest.spyOn(service, 'decode').mockResolvedValue(null);
+
+      try {
+        await controller.decode({ shortUrl: 'nonexistent' });
+        fail('Should have thrown an exception');
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
     });
   });
 });
