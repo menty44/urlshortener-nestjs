@@ -62,3 +62,15 @@ http://localhost:5000/api/statistic/7d6a45d
 ```
 http://localhost:5000/api/7d6a45d
 ``` 
+
+
+```aiignore
+Endpoints satisfies the below requirements:
+
+● /api/encode - Encodes a URL to a shortened URL
+● /api/decode - Decodes a shortened URL to its original URL
+● /api/statistic/{url_path} - Return basic stat of a short URL path. Using the above link url_path will be GeAi9K. (Be creative with what details you provide here.)
+● /api/list - List all available url
+● /{url_path} - This should redirect the user to the long url.
+```
+
