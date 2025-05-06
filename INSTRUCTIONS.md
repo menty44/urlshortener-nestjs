@@ -1,6 +1,12 @@
 ## Installation (make sure you have node version 18+)
 
 ```bash
+# install nestjs cli
+$ npm install -g @nestjs/cli
+```
+
+```bash
+# install all depeendencies
 $ npm install
 ```
 
