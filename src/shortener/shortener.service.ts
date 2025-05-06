@@ -74,4 +74,17 @@ export class ShortenerService {
   async decode(shortUrl: string): Promise<string | undefined> {
     return this.urlMap[shortUrl]?.originalUrl;
   }
+
+  // Stats function
+  async getStatistics(
+    shortUrl: string,
+  ): Promise<{ longUrl: string; visits: number; createdAt: Date } | null> {
+    return this.urlMap[shortUrl]
+      ? {
+          longUrl: this.urlMap[shortUrl].originalUrl,
+          visits: this.urlMap[shortUrl].visits,
+          createdAt: this.urlMap[shortUrl].createdAt,
+        }
+      : null;
+  }
 }

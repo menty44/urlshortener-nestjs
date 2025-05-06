@@ -8,6 +8,7 @@ import {
   Logger,
   NotFoundException,
   HttpCode,
+  Param,
 } from '@nestjs/common';
 import { ShortenerService } from './shortener.service';
 import { CreateShortenerDto } from './dto/create-shortener.dto';
@@ -59,5 +60,26 @@ export class ShortenerController {
       });
     }
     return { longUrl };
+  }
+
+  @Get('statistic/:shortUrl')
+  async getStatistics(
+    @Param('shortUrl') shortUrl: string,
+  ): Promise<{ longUrl: string; visits: number; createdAt: Date }> {
+    if (!shortUrl) {
+      throw new NotFoundException({
+        status: HttpStatus.NOT_FOUND,
+        message: 'Short URL parameter not found',
+      });
+    }
+
+    const stats = await this.shortenerService.getStatistics(shortUrl);
+    if (!stats) {
+      throw new NotFoundException({
+        status: HttpStatus.NOT_FOUND,
+        message: 'Short URL not found',
+      });
+    }
+    return stats;
   }
 }
